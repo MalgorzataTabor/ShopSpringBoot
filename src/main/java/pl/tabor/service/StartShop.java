@@ -3,24 +3,17 @@ package pl.tabor.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
-import org.springframework.context.MessageSource;
+
 import org.springframework.context.annotation.Profile;
 import org.springframework.context.event.EventListener;
 
 import org.springframework.stereotype.Service;
 import pl.tabor.Model.Basket;
-import pl.tabor.Model.Product;
-
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-import java.util.List;
 
 @Service
 @Profile("start")
 public class StartShop implements ContentsOfBasket {
 
-
-    //private List<Product> basket;
 
     private final Basket basket;
     private final MessageService messageService;

@@ -3,8 +3,6 @@ package pl.tabor.Model;
 import lombok.Data;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -25,8 +23,6 @@ public class Basket {
     }
 
     public BigDecimal getPriceSum() {
-
-
         return products.stream()
                 .map(Product::getPrice)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
@@ -36,24 +32,32 @@ public class Basket {
 
         return products.stream()
                 .map(Product::getPrice)
-                .reduce(BigDecimal::add).get().multiply(markup.getTax())
+                .reduce(BigDecimal::add).get().multiply(markup.getTax()).divide(new BigDecimal(100))
                 .setScale(2, RoundingMode.HALF_UP);
-
-
-
     }
 
-    /*public BigDecimal getDiscountSum() {
+    public BigDecimal getDiscount() {
         return products.stream()
-                .map(Product::getDiscountPrice)
-                .reduce(BigDecimal.ZERO, BigDecimal::add);
+                .map(Product::getPrice)
+                .reduce(BigDecimal::add).get().multiply(markup.getDiscount()).divide(new BigDecimal(100))
+                .setScale(2, RoundingMode.HALF_UP);
     }
 
-    public BigDecimal getDiscountAndTaxSum() {
+    public BigDecimal getDiscountSum(){
         return products.stream()
-                .map(Product::getDiscountTax)
-                .reduce(BigDecimal.ZERO, BigDecimal::add);
-    }*/
+                .map(Product::getPrice)
+                .reduce(BigDecimal::add).get().subtract(getDiscount());
+    }
 
+
+    public BigDecimal getDiscountAndTaxSum(){
+        return getDiscountSum().multiply(getMarkup().getTax())
+                .divide(new BigDecimal(100))
+                .setScale(2,RoundingMode.HALF_UP);}
+
+
+    public List<Product> getProducts() {
+        return products;
+    }
 
 }
