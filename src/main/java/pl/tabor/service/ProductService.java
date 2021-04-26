@@ -26,14 +26,11 @@ public class ProductService {
     }
 
     @Autowired
-
-
     public BigDecimal getTax() {
         return products.stream().map(Product::getPrice).iterator().next()
                 .multiply(markup.getTax())
                 .divide(new BigDecimal(100))
                 .setScale(2, RoundingMode.HALF_UP);
-
 
     }
 
@@ -50,9 +47,7 @@ public class ProductService {
                 .setScale(2, RoundingMode.HALF_UP);
 
         return price.subtract(discount);
-
     }
-
 
     public BigDecimal getDiscountTax() {
         return getDiscountPrice().multiply(markup.getTax())

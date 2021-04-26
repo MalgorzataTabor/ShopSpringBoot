@@ -17,24 +17,7 @@ public class Product {
         this.price = price;
     }
 
- /*public BigDecimal getTax() {
-        return price.multiply(getMarkup().getTax())
-                .divide(new BigDecimal(100))
-                .setScale(2, RoundingMode.HALF_UP);
-    }
 
-    public BigDecimal getDiscountPrice() {
-        return price.subtract(price.multiply(getMarkup().getDiscount()
-        ))
-                .divide(new BigDecimal(100))
-                .setScale(2, RoundingMode.HALF_UP);
-    }
-
-    public BigDecimal getDiscountTax() {
-        return getDiscountPrice().multiply(getMarkup().getTax())
-                .divide(new BigDecimal(100))
-                .setScale(2, RoundingMode.HALF_UP);
-    }*/
 }
 
 

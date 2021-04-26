@@ -66,7 +66,7 @@ public class ShopPro implements ContentsOfBasket {
                 "-",
                 basket.getDiscountSum(),
                 basket.getDiscountAndTaxSum(),
-                basket.getDiscountSum().add(basket.getDiscountAndTaxSum())) ;
+                basket.getDiscountSum().add(basket.getDiscountAndTaxSum()));
 
 
     }
