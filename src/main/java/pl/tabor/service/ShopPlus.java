@@ -18,20 +18,26 @@ import java.math.BigDecimal;
 
 @Service
 @Profile("plus")
+
 public class ShopPlus implements ContentsOfBasket {
-    @Value("${VAT}")
-    private BigDecimal VAT;
+
     private final MessageService messageService;
     private final Basket basket;
+    private final Markup markup;
+    private final ProductService productService;
 
-    public ShopPlus(MessageService messageService, Basket basket) {
+
+    @Autowired
+    public ShopPlus(MessageService messageService, Basket basket, Markup markup, ProductService productService) {
         this.messageService = messageService;
         this.basket = basket;
+        this.markup = markup;
+        this.productService = productService;
     }
 
     @EventListener(ApplicationReadyEvent.class)
     public void showBasket() {
-        final String REGEX = "%-20s %7s %n";
+        final String REGEX = "%-15s %10s %10s %10s %n";
         System.out.printf(REGEX,
                 messageService.getTextProductName(),
                 messageService.getTextPrice(),
@@ -42,8 +48,9 @@ public class ShopPlus implements ContentsOfBasket {
                 System.out.printf(REGEX,
                         product.getProductName(),
                         product.getPrice(),
-                        product.getTax(),
-                        product.getPrice().add(product.getTax())));
+                        productService.getTax(),
+                        product.getPrice().add(productService.getTax()
+                        )));
 
         System.out.printf(REGEX,
                 messageService.getTextSum(),
