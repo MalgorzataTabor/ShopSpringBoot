@@ -12,6 +12,7 @@ import java.math.RoundingMode;
 import java.util.List;
 
 
+
 @Service
 public class ProductService {
 
@@ -19,13 +20,14 @@ public class ProductService {
     private Markup markup;
     private Basket basket;
 
+
+    @Autowired
     public ProductService(List<Product> products, Markup markup, Basket basket) {
         this.products = products;
         this.markup = markup;
         this.basket = basket;
     }
 
-    @Autowired
     public BigDecimal getTax() {
         return products.stream().map(Product::getPrice).iterator().next()
                 .multiply(markup.getTax())
