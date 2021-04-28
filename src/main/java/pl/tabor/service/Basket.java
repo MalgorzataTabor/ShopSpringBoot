@@ -1,9 +1,11 @@
-package pl.tabor.Model;
+package pl.tabor.service;
 
 import lombok.Data;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import pl.tabor.Model.Markup;
+import pl.tabor.Model.Product;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -32,7 +34,8 @@ public class Basket {
 
         return products.stream()
                 .map(Product::getPrice)
-                .reduce(BigDecimal::add).get().multiply(markup.getTax()).divide(new BigDecimal(100))
+                .reduce(BigDecimal::add).get().multiply(markup.getTax())
+                .divide(BigDecimal.valueOf(100))
                 .setScale(2, RoundingMode.HALF_UP);
     }
 
@@ -43,21 +46,17 @@ public class Basket {
                 .setScale(2, RoundingMode.HALF_UP);
     }
 
-    public BigDecimal getDiscountSum(){
+    public BigDecimal getDiscountSum() {
         return products.stream()
                 .map(Product::getPrice)
                 .reduce(BigDecimal::add).get().subtract(getDiscount());
     }
 
 
-    public BigDecimal getDiscountAndTaxSum(){
+    public BigDecimal getDiscountAndTaxSum() {
         return getDiscountSum().multiply(getMarkup().getTax())
-                .divide(new BigDecimal(100))
-                .setScale(2,RoundingMode.HALF_UP);}
-
-
-    public List<Product> getProducts() {
-        return products;
+                .divide(BigDecimal.valueOf(100))
+                .setScale(2, RoundingMode.HALF_UP);
     }
 
 }

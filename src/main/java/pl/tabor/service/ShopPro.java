@@ -6,12 +6,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 
-import pl.tabor.Model.Basket;
 import pl.tabor.Model.Markup;
-import pl.tabor.Model.Product;
-
-import java.math.BigDecimal;
-import java.util.List;
 
 @Service
 @Profile("pro")
@@ -23,7 +18,7 @@ public class ShopPro implements ContentsOfBasket {
     private final Markup markup;
     private final ProductService productService;
 
-
+    @Autowired
     public ShopPro(MessageService messageService, Basket basket, Markup markup, ProductService productService) {
         this.messageService = messageService;
         this.basket = basket;
@@ -31,7 +26,7 @@ public class ShopPro implements ContentsOfBasket {
         this.productService = productService;
     }
 
-    @Autowired
+
 
 
     @EventListener(ApplicationReadyEvent.class)
@@ -51,12 +46,12 @@ public class ShopPro implements ContentsOfBasket {
                 System.out.printf(REGEX,
                         product.getProductName(),
                         product.getPrice(),
-                        productService.getTax(),
-                        product.getPrice().add(productService.getTax()),
+                        productService.getPriceWithTax(product),
+                        product.getPrice().add(productService.getPriceWithTax(product)),
                         productService.getDiscount() + "%",
-                        productService.getDiscountPrice(),
-                        productService.getDiscountTax(),
-                        productService.getDiscountPrice().add(productService.getDiscountTax())));
+                        productService.getPriceWithDiscount(product),
+                        productService.getPriceWithDiscountAndTax(product),
+                        productService.getPriceWithDiscount(product).add(productService.getPriceWithDiscountAndTax(product))));
 
         System.out.printf(REGEX,
                 messageService.getTextSum(),
